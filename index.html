@@ -34,15 +34,14 @@
         new Vue({
             el: '.vue_total',
             data: {
-                firstValue: "",
-                secondValue: "",
+                firstValue: 0,
+                secondValue: 0,
                 operators: ['+', '-', '*', '/'],
                 selected: null
             },
             computed: {
                 computeValue: function () {
                     return eval(this.firstValue + this.selected + this.secondValue);
-                    return this.firstValue + this.selected + this.secondValue;
                 }
             },
         })
