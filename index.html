@@ -9,12 +9,21 @@
     <div class="vue_total">
         <div>
             <label>First Value :</label>
-            <input type="text" v-model.number="firstValue" />
+            <input type="number" v-model.number="firstValue" />
         </div>
 
         <div>
             <label>Second Value :</label>
-            <input type="text" v-model.number="secondValue" />
+            <input type="number" v-model.number="secondValue" />
+        </div>
+
+        <div>
+            <label>Operator:</label>
+            <select v-model="selected">
+                <option v-for="operator in operators">
+                    {{ operator }}
+                </option>
+            </select>
         </div>
 
         <h1>Result : {{ computeValue }}</h1>
@@ -27,13 +36,15 @@
             data: {
                 firstValue: "",
                 secondValue: "",
+                operators: ['+', '-', '*', '/'],
+                selected: null
             },
-
             computed: {
                 computeValue: function () {
-                    return this.firstValue  + this.secondValue;
+                    return eval(this.firstValue + this.selected + this.secondValue);
+                    return this.firstValue + this.selected + this.secondValue;
                 }
-            }
+            },
         })
     </script>
 </body>
