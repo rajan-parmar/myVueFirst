@@ -7,14 +7,14 @@
 </head>
 <body>
     <div class="vue_total">
-        <h1>First Value :{{first}}</h1>
-        <h1>Second Value : {{second}}</h1>
-        <h1>Total: <font color="green">{{firstTotal()}}</font></h1>
+        <h1>First Value :{{ first }}</h1>
+        <h1>Second Value : {{ second }}</h1>
+        <h1>Total: <font color="green">{{ firstTotal() }}</font></h1>
     </div>
 
     <script src="vue.js"></script>
     <script>
-        var vm = new Vue({
+        new Vue({
             el: '.vue_total',
             data: {
                 first: 20,
