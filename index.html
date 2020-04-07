@@ -13,12 +13,14 @@
         <div class="vue_todo col-lg-4">
             <div class="mb-3">
                 <label>To-do :</label>
-                <input type="text" class="form-control" v-on:change="addTodo" />
+                <input type="text" class="form-control" @keyup.enter="addTodo" />
             </div>
 
             <ul class="list-group">
-                <li v-for="todo in todos" class="list-group-item">
+                <li class="list-group-item" v-for="todo in todos">
                     {{ todo.description }}
+
+                    <button class="btn-sm btn-danger" v-on:click="removeTodo(todo.id)">X</button>
                 </li>
             </ul>
         </div>
@@ -30,13 +32,16 @@
             el: '.vue_todo',
             data: {
                 todos: [
-                    { description: "First todo" },
+                    { description: "First todo", id: Math.floor(Math.random() * 10) },
                 ],
             },
             methods: {
-                addTodo({ target }){
-                    this.todos.push({ description: target.value })
+                addTodo({ target }) {
+                    this.todos.push({ description: target.value, id: Math.floor(Math.random() * 10) })
                     target.value = ''
+                },
+                removeTodo(id) {
+                    this.todos = this.todos.filter(todo => todo.id !== id)
                 }
             }
         })
