@@ -17,13 +17,13 @@
             </div>
 
             <ul class="list-group">
-                <li class="list-group-item" v-for="todo in todos">
+                <li class="list-group-item" v-for="todo in todos" :key="todo.id">
                     <div class="row">
                         <div class="col-lg-10">
                             <input v-if="todo.edit" v-model="todo.description" @keyup.enter="todo.edit = false;">
 
                             <div v-else>
-                                <label @click="todo.edit = true;"> {{ todo.description }} </label>
+                                <label @click="todo.edit = true;">{{ todo.description }}</label>
                             </div>
                         </div>
 
