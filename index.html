@@ -4,46 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My First Vue Js Project</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"
+    >
 </head>
 <body>
-    <div class="vue_total">
-        <div>
-            <label>First Value :</label>
-            <input type="number" v-model.number="firstValue" />
-        </div>
+    <div class="container">
+        <div class="vue_todo col-lg-4">
+            <div class="mb-3">
+                <label>To-do :</label>
+                <input type="text" class="form-control" v-on:change="addTodo" />
+            </div>
 
-        <div>
-            <label>Second Value :</label>
-            <input type="number" v-model.number="secondValue" />
+            <ul class="list-group">
+                <li v-for="todo in todos" class="list-group-item">
+                    {{ todo.description }}
+                </li>
+            </ul>
         </div>
-
-        <div>
-            <label>Operator:</label>
-            <select v-model="selected">
-                <option v-for="operator in operators">
-                    {{ operator }}
-                </option>
-            </select>
-        </div>
-
-        <h1>Result : {{ computeValue }}</h1>
     </div>
 
     <script src="vue.js"></script>
     <script>
         new Vue({
-            el: '.vue_total',
+            el: '.vue_todo',
             data: {
-                firstValue: 0,
-                secondValue: 0,
-                operators: ['+', '-', '*', '/'],
-                selected: null
+                todos: [
+                    { description: "First todo" },
+                ],
             },
-            computed: {
-                computeValue: function () {
-                    return eval(this.firstValue + this.selected + this.secondValue);
+            methods: {
+                addTodo({ target }){
+                    this.todos.push({ description: target.value })
+                    target.value = ''
                 }
-            },
+            }
         })
     </script>
 </body>
