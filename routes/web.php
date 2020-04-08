@@ -15,4 +15,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'VueFirstController@index');
 Route::get('/todo', 'VueFirstController@todoList');
+Route::post('/store', 'VueFirstController@store');
 Route::delete('/delete/{id}', 'VueFirstController@destroy');

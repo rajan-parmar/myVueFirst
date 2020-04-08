@@ -3,6 +3,15 @@
 @section('title', 'Homepage')
 @section('contents')
     <div class="vue_todo col-lg-4">
+        <div class="mb-3">
+            <h3 class="font-weight-bold">Todo Lists :</h3>
+            <form @submit.prevent="addNewTodo">
+
+                <input type="text" class="form-control mb-3" placeholder="Insert Todo" v-model="name" />
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <tr>
@@ -41,6 +50,13 @@
                         .then((response)=>{
                         this.newTodos = response.data
                     })
+                },
+                addNewTodo() {
+                    axios.post("/store", {
+                        name: this.name,
+                    })
+                    this.name = '';
+                    this.getUser();
                 },
                 removeTodo(id) {
                     axios.delete('/delete/' + id, {

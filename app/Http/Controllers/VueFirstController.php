@@ -31,6 +31,23 @@ class VueFirstController extends Controller
     }
 
     /**
+     * Store the data
+     *
+     * @return \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     **/
+    public function store(Request $request)
+    {
+        $data = new Data;
+        $data->name = $request->name;
+        $data->save();
+
+        return response()->json([
+            'status' => 'success', 'message' => 'New todo list created'
+        ]);
+    }
+
+    /**
      * Delete Todo Record
      *
      * @param var $id
