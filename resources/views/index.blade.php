@@ -3,28 +3,25 @@
 @section('title', 'Homepage')
 @section('contents')
     <div class="vue_todo col-lg-4">
-        <div class="mb-3">
-            <h3 class="font-weight-bold">Todo Lists :</h3>
-            <input type="text" class="form-control" placeholder="Insert Todo" @keyup.enter="addTodo" />
-        </div>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
 
-        <ul class="list-group">
-            <li class="list-group-item" v-for="todo in todos" :key="todo.id">
-                <div class="row">
-                    <div class="col-lg-10">
-                        <input v-if="todo.edit" v-model="todo.description" @keyup.enter="todo.edit = false;">
-
-                        <div v-else>
-                            <label @click="todo.edit = true;">@{{ todo.description }}</label>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2">
-                        <button class="btn-sm btn-danger" title="Delete Todo" @click="removeTodo(todo.id)">X</button>
-                    </div>
-                </div>
-            </li>
-        </ul>
+                <tbody>
+                    <tr v-for="newTodo in newTodos" :key="newTodo.id">
+                        <td>@{{ newTodo.id }}</td>
+                        <td>@{{ newTodo.name }}</td>
+                        <td>
+                            <button class="btn-sm btn-danger" title="Delete Todo" @click="removeTodo(newTodo.id)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </thead>
+        </table>
     </div>
 @endsection
 
@@ -32,20 +29,22 @@
     <script>
         new Vue({
             el: '.vue_todo',
-            data: {
-                todos: [
-                    { description: "First todo", id: Math.floor(Math.random() * 10), edit: false },
-                ],
+            data() {
+                return {
+                    newTodos: {},
+                }
             },
             methods: {
-                addTodo({ target }) {
-                    this.todos.push({ description: target.value, id: Math.floor(Math.random() * 10), edit: false })
-                    target.value = ''
+                getUser() {
+                    axios.get('/todo')
+                        .then((response)=>{
+                        this.newTodos = response.data
+                    })
                 },
-                removeTodo(id) {
-                    this.todos = this.todos.filter(todo => todo.id !== id)
-                },
-            }
+            },
+            mounted() {
+                this.getUser()
+            },
         })
     </script>
 @endpush
