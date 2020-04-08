@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'VueFirstController@index');
 Route::get('/todo', 'VueFirstController@todoList');
+Route::delete('/delete/{id}', 'VueFirstController@destroy');

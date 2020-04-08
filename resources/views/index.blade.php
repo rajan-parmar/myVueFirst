@@ -31,6 +31,7 @@
             el: '.vue_todo',
             data() {
                 return {
+                    name: '',
                     newTodos: {},
                 }
             },
@@ -40,6 +41,11 @@
                         .then((response)=>{
                         this.newTodos = response.data
                     })
+                },
+                removeTodo(id) {
+                    axios.delete('/delete/' + id, {
+                    })
+                    this.getUser();
                 },
             },
             mounted() {

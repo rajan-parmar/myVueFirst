@@ -29,4 +29,19 @@ class VueFirstController extends Controller
         $data = Data::all();
         return response()->json($data);
     }
+
+    /**
+     * Delete Todo Record
+     *
+     * @param var $id
+     * @return \Illuminate\Http\JsonResponse
+     **/
+    public function destroy($id)
+    {
+       Data::destroy($id);
+
+       return response()->json([
+            'status' => 'success', 'message' => 'Record Deleted'
+        ]);
+    }
 }
