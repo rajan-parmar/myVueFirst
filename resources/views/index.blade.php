@@ -75,10 +75,10 @@
                 hasDelete: false,
             },
             mounted: function() {
-                this.getUser()
+                this.getTodos()
             },
             methods: {
-                getUser() {
+                getTodos() {
                     axios.get('/todo')
                     .then((response)=>{
                         this.newTodos = response.data
