@@ -41,14 +41,13 @@
             <tbody>
                 <tr v-for="newTodo in newTodos" :key="newTodo.id">
                     <td>@{{ newTodo.id }}</td>
-                        <td v-if="todoEdit">
-                            <input v-model="newTodo.name"
-                                    v-if="todoEdit"
-                                class="form-control"
-                                @keyup.enter="todoEdit = false; updateTodo(newTodo.id, newTodo.name)"
-                            >
-                        </td>
-                        <td v-else @click="todoEdit = true;">@{{ newTodo.name }}</td>
+                    <td>
+                        <input v-model="newTodo.name"
+                            v-if="todoEdit"
+                            class="form-control"
+                            @keyup.enter="todoEdit = false; updateTodo(newTodo.id, newTodo.name)"
+                        >
+                        <label v-else @click="todoEdit = true;">@{{ newTodo.name }}</label>
                     <td>
                         <button class="btn-sm btn-danger" title="Delete Todo" @click="removeTodo(newTodo.id)">Delete</button>
                     </td>
@@ -94,7 +93,7 @@
                             name: this.name,
                         })
                         this.name = '';
-                        this.getUser();
+                        this.getTodos();
                         this.errorSuccess = false;
                         this.hasSuccess = true;
                     }
@@ -104,7 +103,7 @@
                         name: name,
                     })
                     .then((response)=>{
-                        this.getUser();
+                        this.getTodos();
                         this.errorUpdate = false;
                         this.hasUpdate = true;
                     })
@@ -112,7 +111,7 @@
                 removeTodo(id) {
                     axios.delete('/delete/' + id)
                     .then((response)=>{
-                        this.getUser();
+                        this.getTodos();
                         this.errorDelete = false;
                         this.hasDelete = true;
                     })
