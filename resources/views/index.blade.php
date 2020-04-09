@@ -36,23 +36,24 @@
                     <th>Name</th>
                     <th>Action</th>
                 </tr>
-
-                <tbody>
-                    <tr v-for="newTodo in newTodos" :key="newTodo.id">
-                        <td>@{{ newTodo.id }}</td>
-                            <td v-if="todoEdit">
-                                <input v-model="newTodo.name"
-                                    class="form-control"
-                                    @keyup.enter="todoEdit = false; updateTodo(newTodo.id, newTodo.name)"
-                                >
-                            </td>
-                            <td v-else @click="todoEdit = true;">@{{ newTodo.name }}</td>
-                        <td>
-                            <button class="btn-sm btn-danger" title="Delete Todo" @click="removeTodo(newTodo.id)">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
             </thead>
+
+            <tbody>
+                <tr v-for="newTodo in newTodos" :key="newTodo.id">
+                    <td>@{{ newTodo.id }}</td>
+                        <td v-if="todoEdit">
+                            <input v-model="newTodo.name"
+                                    v-if="todoEdit"
+                                class="form-control"
+                                @keyup.enter="todoEdit = false; updateTodo(newTodo.id, newTodo.name)"
+                            >
+                        </td>
+                        <td v-else @click="todoEdit = true;">@{{ newTodo.name }}</td>
+                    <td>
+                        <button class="btn-sm btn-danger" title="Delete Todo" @click="removeTodo(newTodo.id)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
 @endsection
