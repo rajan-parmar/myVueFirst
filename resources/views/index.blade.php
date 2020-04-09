@@ -6,6 +6,22 @@
         <div class="mb-3">
             <h3 class="font-weight-bold">Todo Lists :</h3>
 
+            <p class="text-center alert" v-bind:class="{ 'alert-danger': hasError, 'd-none': errorHasError }">
+                Please fill all fields!
+            </p>
+
+            <p class="text-center alert" v-bind:class="{ 'alert-success': hasSuccess, 'd-none': errorSuccess }">
+                Record Inserted Successfully!
+            </p>
+
+            <p class="text-center alert" v-bind:class="{ 'alert-success': hasUpdate, 'd-none': errorUpdate }">
+                Record Updated Successfully!
+            </p>
+
+            <p class="text-center alert" v-bind:class="{ 'alert-success': hasDelete, 'd-none': errorDelete }">
+                Record Deleted Successfully!
+            </p>
+
             <form @submit.prevent="addNewTodo">
                 <input type="text" class="form-control mb-3" placeholder="Insert Todo" v-model="name" />
 
@@ -49,6 +65,14 @@
                 name: '',
                 newTodos: {},
                 todoEdit: false,
+                hasError: false,
+                errorHasError: true,
+                hasSuccess: false,
+                errorSuccess: true,
+                hasUpdate: false,
+                errorUpdate: true,
+                errorDelete: true,
+                hasDelete: false,
             },
             mounted: function() {
                 this.getUser()
@@ -61,11 +85,18 @@
                     })
                 },
                 addNewTodo() {
-                    axios.post("/store", {
-                        name: this.name,
-                    })
-                    this.name = '';
-                    this.getUser();
+                    if (this.name == '') {
+                        this.errorHasError = false;
+                        this.hasError = true;
+                    } else {
+                        axios.post("/store", {
+                            name: this.name,
+                        })
+                        this.name = '';
+                        this.getUser();
+                        this.errorSuccess = false;
+                        this.hasSuccess = true;
+                    }
                 },
                 updateTodo(id, name) {
                     axios.post("/update/" + id, {
@@ -73,12 +104,16 @@
                     })
                     .then((response)=>{
                         this.getUser();
+                        this.errorUpdate = false;
+                        this.hasUpdate = true;
                     })
                 },
                 removeTodo(id) {
                     axios.delete('/delete/' + id)
                     .then((response)=>{
                         this.getUser();
+                        this.errorDelete = false;
+                        this.hasDelete = true;
                     })
                 },
             },
