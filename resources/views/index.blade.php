@@ -5,9 +5,10 @@
     <div class="vue_todo col-lg-4">
         <div class="mb-3">
             <h3 class="font-weight-bold">Todo Lists :</h3>
-            <form @submit.prevent="addNewTodo">
 
+            <form @submit.prevent="addNewTodo">
                 <input type="text" class="form-control mb-3" placeholder="Insert Todo" v-model="name" />
+
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
@@ -23,7 +24,13 @@
                 <tbody>
                     <tr v-for="newTodo in newTodos" :key="newTodo.id">
                         <td>@{{ newTodo.id }}</td>
-                        <td>@{{ newTodo.name }}</td>
+                            <td v-if="todoEdit">
+                                <input v-model="newTodo.name"
+                                    class="form-control"
+                                    @keyup.enter="todoEdit = false; updateTodo(newTodo.id, newTodo.name)"
+                                >
+                            </td>
+                            <td v-else @click="todoEdit = true;">@{{ newTodo.name }}</td>
                         <td>
                             <button class="btn-sm btn-danger" title="Delete Todo" @click="removeTodo(newTodo.id)">Delete</button>
                         </td>
@@ -38,16 +45,18 @@
     <script>
         new Vue({
             el: '.vue_todo',
-            data() {
-                return {
-                    name: '',
-                    newTodos: {},
-                }
+            data: {
+                name: '',
+                newTodos: {},
+                todoEdit: false,
+            },
+            mounted: function() {
+                this.getUser()
             },
             methods: {
                 getUser() {
                     axios.get('/todo')
-                        .then((response)=>{
+                    .then((response)=>{
                         this.newTodos = response.data
                     })
                 },
@@ -58,14 +67,20 @@
                     this.name = '';
                     this.getUser();
                 },
-                removeTodo(id) {
-                    axios.delete('/delete/' + id, {
+                updateTodo(id, name) {
+                    axios.post("/update/" + id, {
+                        name: name,
                     })
-                    this.getUser();
+                    .then((response)=>{
+                        this.getUser();
+                    })
                 },
-            },
-            mounted() {
-                this.getUser()
+                removeTodo(id) {
+                    axios.delete('/delete/' + id)
+                    .then((response)=>{
+                        this.getUser();
+                    })
+                },
             },
         })
     </script>

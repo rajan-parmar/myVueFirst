@@ -48,6 +48,23 @@ class VueFirstController extends Controller
     }
 
     /**
+     * Update the todo record
+     *
+     * @param var $id
+     * @return \Illuminate\Http\JsonResponse
+     **/
+    public function update($id, Request $request)
+    {
+        $data = Data::find($id);
+        $data->name = $request->name;
+        $data->save();
+
+        return response()->json([
+            'status' => 'success', 'message' => 'New todo list updated'
+        ]);
+    }
+
+    /**
      * Delete Todo Record
      *
      * @param var $id
@@ -55,9 +72,9 @@ class VueFirstController extends Controller
      **/
     public function destroy($id)
     {
-       Data::destroy($id);
+        Data::destroy($id);
 
-       return response()->json([
+        return response()->json([
             'status' => 'success', 'message' => 'Record Deleted'
         ]);
     }
