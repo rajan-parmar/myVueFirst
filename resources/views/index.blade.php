@@ -43,11 +43,11 @@
                     <td>@{{ newTodo.id }}</td>
                     <td>
                         <input v-model="newTodo.name"
-                            v-if="todoEdit"
+                            v-if="newTodo.isEdit"
                             class="form-control"
-                            @keyup.enter="todoEdit = false; updateTodo(newTodo.id, newTodo.name)"
+                            @keyup.enter="newTodo.isEdit = false; updateTodo(newTodo.id, newTodo.name)"
                         >
-                        <label v-else @click="todoEdit = true;">@{{ newTodo.name }}</label>
+                        <label v-else @click="newTodo.isEdit = true;">@{{ newTodo.name }}</label>
                     <td>
                         <button class="btn-sm btn-danger" title="Delete Todo" @click="removeTodo(newTodo.id)">Delete</button>
                     </td>
@@ -64,7 +64,6 @@
             data: {
                 name: '',
                 newTodos: {},
-                todoEdit: false,
                 hasError: false,
                 errorHasError: true,
                 hasSuccess: false,
@@ -81,7 +80,10 @@
                 getTodos() {
                     axios.get('/todo')
                     .then((response)=>{
-                        this.newTodos = response.data
+                        for (let i = 0; i < response.data.length; i++) {
+                            response.data[i].isEdit =  false;
+                        }
+                        this.newTodos = response.data;
                     })
                 },
                 addNewTodo() {
@@ -98,9 +100,9 @@
                         this.hasSuccess = true;
                     }
                 },
-                updateTodo(id, name) {
-                    axios.post("/update/" + id, {
-                        name: name,
+                updateTodo(todoId, todoName) {
+                    axios.post("/update/" + todoId, {
+                        name: todoName,
                     })
                     .then((response)=>{
                         this.getTodos();
@@ -108,8 +110,8 @@
                         this.hasUpdate = true;
                     })
                 },
-                removeTodo(id) {
-                    axios.delete('/delete/' + id)
+                removeTodo(TodoId) {
+                    axios.delete('/delete/' + TodoId)
                     .then((response)=>{
                         this.getTodos();
                         this.errorDelete = false;
