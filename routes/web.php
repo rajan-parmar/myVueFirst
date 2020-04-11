@@ -18,5 +18,3 @@ Route::get('/todo', 'VueFirstController@todoList');
 Route::post('/store', 'VueFirstController@store');
 Route::post('/update/{id}', 'VueFirstController@update');
 Route::delete('/delete/{id}', 'VueFirstController@destroy');
-
-Route::get('/product', 'VueProjectController@index');
